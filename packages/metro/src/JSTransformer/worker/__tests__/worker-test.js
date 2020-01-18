@@ -16,7 +16,7 @@ jest
     code: code.replace('arbitrary(code)', 'minified(code)'),
     map,
   }))
-  .mock('metro-minify-uglify');
+  .mock('metro-minify-terser');
 
 const path = require('path');
 

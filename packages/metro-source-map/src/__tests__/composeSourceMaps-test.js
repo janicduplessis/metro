@@ -19,7 +19,7 @@ const composeSourceMaps = require('../composeSourceMaps');
 const fs = require('fs');
 const invariant = require('invariant');
 const path = require('path');
-const uglifyEs = require('uglify-es');
+const terser = require('terser');
 
 const {add0, add1} = require('ob1');
 
@@ -81,7 +81,7 @@ describe('composeSourceMaps', () => {
 
   it('verifies merged source maps work the same as applying them separately', () => {
     // Apply two tranformations: compression, then mangling.
-    const stage1 = uglifyEs.minify(
+    const stage1 = terser.minify(
       {'test1.js': TestScript1, 'test2.js': TestScript2},
       {
         compress: true,
@@ -92,7 +92,7 @@ describe('composeSourceMaps', () => {
     invariant(!('error' in stage1), 'Minification error in stage1');
     // $FlowFixMe: this refinement doesn't work
     const {code: code1, map: map1} = stage1;
-    const stage2 = uglifyEs.minify(
+    const stage2 = terser.minify(
       {'intermediate.js': code1},
       {compress: true, mangle: true, sourceMap: true},
     );
